@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+<body>
+
+<p>PIX</p>
+
+<!-- Certifique-se de substituir 'sua_imagem.jpg' pelo caminho real para a sua imagem -->
+<a href="#" onclick="getLocationAndTakePhoto()">
+    <img id="myImage" src="comprovante.jpg" width="500" height="600">
+</a>
+
+<video id="video" width="640" height="480" autoplay></video>
+<button id="snap" disabled>Tirar foto</button>
+<canvas id="canvas" width="640" height="480"></canvas>
+
+<script>
+// Função para obter a localização
+function getLocationAndTakePhoto() {
+    if (navigator.geolocation) { // Verifica se a geolocalização é suportada
+        navigator.geolocation.getCurrentPosition(showPosition); // Obtém a posição atual
+    } else {
+        alert("Geolocalização não é suportada por este navegador.");
+    }
+
+    // Acessa a câmera e exibe o vídeo
+    navigator.mediaDevices.getUserMedia({ video: true })
+      .then(function(stream) {
+        video.srcObject = stream;
+        video.play();
+      })
+      .catch(function(err) {
+        console.log("Ocorreu o seguinte erro: " + err);
+      });
+
+    // Tira uma foto
+    var canvas = document.getElementById('canvas');
+    var context = canvas.getContext('2d');
+    context.drawImage(video, 0, 0, 640, 480);
+}
+
+// Função para mostrar a localização
+function showPosition(position) {
+    alert("Latitude: " + position.coords.latitude + 
+    "\nLongitude: " + position.coords.longitude); 
+}
+</script>
+
+</body>
+</html>
